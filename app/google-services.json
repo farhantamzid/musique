@@ -12,7 +12,20 @@
           "package_name": "com.beyond.musique"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "374840986590-9siq3icmphmujes6s1jiv928eq55av8p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beyond.musique",
+            "certificate_hash": "5404b5cfb7e6befcaa92df174d63efb254e7e11e"
+          }
+        },
+        {
+          "client_id": "374840986590-7ng7hhaogk3p4v9n7qihukq5m1osf2p4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBcJiQDw4yz8jXfRD4eNCO3ZJgj_gddd7E"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374840986590-7ng7hhaogk3p4v9n7qihukq5m1osf2p4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

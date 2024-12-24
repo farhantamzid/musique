@@ -2,6 +2,8 @@ package com.beyond.musique;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         mAuth = FirebaseAuth.getInstance();
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                MainActivity.this.recreate();
+            }
+        });
     }
 
 
