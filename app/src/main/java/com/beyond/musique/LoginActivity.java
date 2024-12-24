@@ -18,8 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     Button registerButton;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        registerButton=findViewById(R.id.registerButton);
+        registerButton = findViewById(R.id.registerButton);
 
 
         registerButton.setOnClickListener(new View.OnClickListener() {

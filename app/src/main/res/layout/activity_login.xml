@@ -24,10 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="17"
+        android:hint="Enter your e-mail address"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Enter your e-mail address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,10 +35,10 @@
         android:id="@+id/editTextTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="17"
         android:layout_marginTop="16dp"
-        android:inputType="textPassword"
+        android:ems="17"
         android:hint="Enter your password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
@@ -46,9 +46,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="musique"
-        android:layout_marginTop="16dp"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

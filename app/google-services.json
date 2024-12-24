@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "374840986590",
+    "project_id": "musique-android",
+    "storage_bucket": "musique-android.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374840986590:android:c3efac1e3509ba22c8eb4f",
+        "android_client_info": {
+          "package_name": "com.beyond.musique"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcJiQDw4yz8jXfRD4eNCO3ZJgj_gddd7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
