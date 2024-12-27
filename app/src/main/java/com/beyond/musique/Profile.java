@@ -2,11 +2,13 @@ package com.beyond.musique;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.core.graphics.Insets;
@@ -14,6 +16,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Profile extends Fragment {
 
@@ -22,6 +26,9 @@ public class Profile extends Fragment {
     Button signOutButton;
 
     FirebaseAuth mAuth;
+    FirebaseFirestore db;
+
+    private static final String TAG = "ProfileFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,21 +53,50 @@ public class Profile extends Fragment {
         name = rootView.findViewById(R.id.name);
         email = rootView.findViewById(R.id.email);
         signOutButton = rootView.findViewById(R.id.signOutButton);
+
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
+        // Get currently signed-in user
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        if (currentUser != null) {
+            // Display email
+            email.setText(currentUser.getEmail());
 
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            // Try to fetch the display name directly from FirebaseUser
+            String displayName = currentUser.getDisplayName();
+            if (displayName != null && !displayName.isEmpty()) {
+                name.setText(displayName);
+            } else {
+                // If display name is not available, fetch it from Firestore
+                String userId = currentUser.getUid();
+                db.collection("users").document(userId).get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String userName = documentSnapshot.getString("name");
+                                name.setText(userName);
+                            } else {
+                                Log.d(TAG, "No such document for user ID: " + userId);
+                                name.setText("Unknown User");
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.e(TAG, "Error fetching user details", e);
+                            Toast.makeText(getActivity(), "Error loading profile", Toast.LENGTH_SHORT).show();
+                        });
+            }
+        } else {
+            // Handle case when no user is signed in
+            email.setText("Not signed in");
+            name.setText("Guest");
+        }
 
-                mAuth.signOut();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                if (getActivity() != null) {
-                    getActivity().finish();
-
-                }
-
+        signOutButton.setOnClickListener(v -> {
+            mAuth.signOut();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            if (getActivity() != null) {
+                getActivity().finish();
             }
         });
 

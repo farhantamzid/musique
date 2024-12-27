@@ -1,6 +1,7 @@
 package com.beyond.musique;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,9 @@ public class Popular extends Fragment {
     ProgressBar progressBar;
 
     CardView cardView1, cardView2, cardView3, cardView4, cardView5, cardView6;
+
+    CardView popCard1, popCard2, popCard3, popCard4, popCard5, popCard6;
+
 
     private static final String TAG = "PopularFragment";
     private static final String API_KEY = "8cde7eb19387aac387fa9c498131b5c8";
@@ -86,6 +90,12 @@ public class Popular extends Fragment {
         cardView5 = rootView.findViewById(R.id.popCard5);
         cardView6 = rootView.findViewById(R.id.popCard6);
         textView3 = rootView.findViewById(R.id.textView3);
+        popCard1 = rootView.findViewById(R.id.popCard1);
+        popCard2 = rootView.findViewById(R.id.popCard2);
+        popCard3 = rootView.findViewById(R.id.popCard3);
+        popCard4 = rootView.findViewById(R.id.popCard4);
+        popCard5 = rootView.findViewById(R.id.popCard5);
+        popCard6 = rootView.findViewById(R.id.popCard6);
 
 
 
@@ -100,8 +110,65 @@ public class Popular extends Fragment {
 
 
 
+        popCard1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(0);
+            }
+        });
+
+        popCard2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(1);
+            }
+        });
+
+        popCard3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(2);
+            }
+        });
+
+        popCard4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(3);
+            }
+        });
+
+        popCard5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(4);
+            }
+        });
+
+        popCard6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(5);
+            }
+        });
+
+
+
+
+
+
+
+
 
         return rootView;
+    }
+
+    private void onCardClicked(int i) {
+        Album selectedAlbum = albumList.get(i);
+        Intent intent = new Intent(getContext(), AlbumDetailsActivity.class);
+        intent.putExtra("albumName", selectedAlbum.albumName);
+        intent.putExtra("artistName", selectedAlbum.artistName);
+        startActivity(intent);
     }
 
 

@@ -1,5 +1,6 @@
 package com.beyond.musique;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,8 @@ public class Search extends Fragment {
     TextView searchArtist1, searchArtist2, searchArtist3, searchArtist4, searchArtist5, searchArtist6, searchArtist7;
     ImageView searchImage1, searchImage2, searchImage3, searchImage4, searchImage5, searchImage6, searchImage7;
     ProgressBar loader;
+
+    CardView cardView1, cardView2, cardView3, cardView4, cardView5, cardView6, cardView7;
 
     CardView resultContainer;
 
@@ -82,6 +85,14 @@ public class Search extends Fragment {
         searchImage7 = rootView.findViewById(R.id.searchImage7);
         resultContainer = rootView.findViewById(R.id.resultContainer);
         loader = rootView.findViewById(R.id.loader);
+        cardView1 = rootView.findViewById(R.id.cardView1);
+        cardView2 = rootView.findViewById(R.id.cardView2);
+        cardView3 = rootView.findViewById(R.id.cardView3);
+        cardView4 = rootView.findViewById(R.id.cardView4);
+        cardView5 = rootView.findViewById(R.id.cardView5);
+        cardView6 = rootView.findViewById(R.id.cardView6);
+        cardView7 = rootView.findViewById(R.id.cardView7);
+
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +105,104 @@ public class Search extends Fragment {
             }
         });
 
+
+        cardView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(0);
+            }
+        });
+
+        cardView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(1);
+            }
+        });
+
+        cardView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(2);
+            }
+        });
+
+        cardView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(3);
+            }
+        });
+
+        cardView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(4);
+            }
+        });
+
+        cardView6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(5);
+            }
+        });
+
+        cardView7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCardClicked(6);
+            }
+        });
+
+
+
         return rootView;
+    }
+
+    private void onCardClicked(int i) {
+
+        String albumName = null;
+        String artistName = null;
+        switch (i) {
+            case 0:
+                albumName = searchName1.getText().toString();
+                artistName = searchArtist1.getText().toString();
+                break;
+            case 1:
+                albumName = searchName2.getText().toString();
+                artistName = searchArtist2.getText().toString();
+                break;
+            case 2:
+                albumName = searchName3.getText().toString();
+                artistName = searchArtist3.getText().toString();
+                break;
+            case 3:
+                albumName = searchName4.getText().toString();
+                artistName = searchArtist4.getText().toString();
+                break;
+            case 4:
+                albumName = searchName5.getText().toString();
+                artistName = searchArtist5.getText().toString();
+                break;
+            case 5:
+                albumName = searchName6.getText().toString();
+                artistName = searchArtist6.getText().toString();
+                break;
+            case 6:
+                albumName = searchName7.getText().toString();
+                artistName = searchArtist7.getText().toString();
+                break;
+
+
+        }
+
+
+        Intent intent = new Intent(getActivity(), AlbumDetailsActivity.class);
+        intent.putExtra("albumName", albumName);
+        intent.putExtra("artistName", artistName);
+        startActivity(intent);
+
     }
 
     private class FetchSearchResultsTask extends AsyncTask<String, Void, JSONArray> {

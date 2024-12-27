@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Popular"
+    <item
+        android:id="@+id/navPopular"
         android:icon="@drawable/popular"
-        android:id="@+id/navPopular"/>
-    <item android:title="Search"
+        android:title="Popular" />
+    <item
+        android:id="@+id/navSearch"
         android:icon="@drawable/search"
-        android:id="@+id/navSearch"/>
-    <item android:title="Profile"
+        android:title="Search" />
+    <item
+        android:id="@+id/navProfile"
         android:icon="@drawable/profile"
-        android:id="@+id/navProfile"/>
+        android:title="Profile" />
+
+
+
 </menu>
