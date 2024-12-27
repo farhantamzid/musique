@@ -25,24 +25,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Fragment for searching albums.
+ */
 public class Search extends Fragment {
 
+    // UI elements
     EditText etSearch;
     Button searchButton;
     TextView searchName1, searchName2, searchName3, searchName4, searchName5, searchName6, searchName7;
     TextView searchArtist1, searchArtist2, searchArtist3, searchArtist4, searchArtist5, searchArtist6, searchArtist7;
     ImageView searchImage1, searchImage2, searchImage3, searchImage4, searchImage5, searchImage6, searchImage7;
     ProgressBar loader;
-
     CardView cardView1, cardView2, cardView3, cardView4, cardView5, cardView6, cardView7;
-
     CardView resultContainer;
 
-    private static final String API_KEY = "8cde7eb19387aac387fa9c498131b5c8"; // Replace with your actual API key
+    // API key for fetching album details
+    private static final String API_KEY = "8cde7eb19387aac387fa9c498131b5c8";
     private static final String TAG = "Search";
 
+    // Cached search results
     private static JSONArray cachedResults = null;
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +73,7 @@ public class Search extends Fragment {
             return insets;
         });
 
+        // Initialize UI elements
         etSearch = rootView.findViewById(R.id.etSearch);
         searchButton = rootView.findViewById(R.id.searchButton);
         searchArtist1 = rootView.findViewById(R.id.searchArtist1);
@@ -95,10 +107,12 @@ public class Search extends Fragment {
         cardView6 = rootView.findViewById(R.id.cardView6);
         cardView7 = rootView.findViewById(R.id.cardView7);
 
+        // If there are cached results, update the UI with them
         if (cachedResults != null) {
             updateUIWithResults(cachedResults);
         }
 
+        // Set click listener for the search button
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +124,7 @@ public class Search extends Fragment {
             }
         });
 
+        // Set click listeners for the card views
         cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +177,10 @@ public class Search extends Fragment {
         return rootView;
     }
 
+    /**
+     * Handles card click events.
+     * @param i The index of the clicked card.
+     */
     private void onCardClicked(int i) {
         String albumName = null;
         String artistName = null;
@@ -196,12 +215,17 @@ public class Search extends Fragment {
                 break;
         }
 
+        // Start AlbumDetailsActivity with the selected album and artist names
         Intent intent = new Intent(getActivity(), AlbumDetailsActivity.class);
         intent.putExtra("albumName", albumName);
         intent.putExtra("artistName", artistName);
         startActivity(intent);
     }
 
+    /**
+     * Updates the UI with the search results.
+     * @param albums The search results as a JSONArray.
+     */
     private void updateUIWithResults(JSONArray albums) {
         try {
             for (int i = 0; i < albums.length() && i < 7; i++) {
@@ -253,14 +277,31 @@ public class Search extends Fragment {
         }
     }
 
+    /**
+     * Updates the UI elements with album details.
+     * @param nameView The TextView for the album name.
+     * @param artistView The TextView for the artist name.
+     * @param imageView The ImageView for the album cover.
+     * @param albumName The album name.
+     * @param artistName The artist name.
+     * @param imageUrl The URL of the album cover image.
+     */
     private void updateUI(TextView nameView, TextView artistView, ImageView imageView, String albumName, String artistName, String imageUrl) {
         nameView.setText(albumName);
         artistView.setText(artistName);
         Glide.with(requireContext()).load(imageUrl).into(imageView);
     }
 
+    /**
+     * AsyncTask for fetching search results from the API.
+     */
     private class FetchSearchResultsTask extends AsyncTask<String, Void, JSONArray> {
 
+        /**
+         * Fetches search results in the background.
+         * @param params The search query.
+         * @return The search results as a JSONArray.
+         */
         @Override
         protected JSONArray doInBackground(String... params) {
             String query = params[0];
@@ -279,6 +320,10 @@ public class Search extends Fragment {
             }
         }
 
+        /**
+         * Updates the UI with the fetched search results.
+         * @param albums The search results as a JSONArray.
+         */
         @Override
         protected void onPostExecute(JSONArray albums) {
             super.onPostExecute(albums);

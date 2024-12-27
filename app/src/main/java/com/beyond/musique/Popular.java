@@ -27,44 +27,53 @@ import java.util.List;
 
 import com.bumptech.glide.Glide;
 
+/**
+ * Fragment for displaying popular albums.
+ */
 public class Popular extends Fragment {
 
+    // List to store album details
     private static List<Album> albumList = null;
 
-
+    // UI elements
     TextView tv1name, tv1artist, tv2name, tv2artist, tv3name, tv3artist, tv4name, tv4artist, tv5name, tv5artist, tv6name, tv6artist, textView3;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6;
-
     ProgressBar progressBar;
-
     CardView cardView1, cardView2, cardView3, cardView4, cardView5, cardView6;
-
     CardView popCard1, popCard2, popCard3, popCard4, popCard5, popCard6;
 
-
+    // Tag for logging
     private static final String TAG = "PopularFragment";
+    // API key for fetching album details
     private static final String API_KEY = "8cde7eb19387aac387fa9c498131b5c8";
 
-
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_popular, container, false);
 
+        // Enable edge-to-edge layout
         if (getActivity() != null) {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             );
         }
 
-        // Enable edge-to-edge layout
+        // Apply insets to ensure proper padding around system bars
         ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-
+        // Initialize UI elements
         tv1name = rootView.findViewById(R.id.tv1name);
         tv1artist = rootView.findViewById(R.id.tv1artist);
         tv2name = rootView.findViewById(R.id.tv2name);
@@ -98,7 +107,6 @@ public class Popular extends Fragment {
         popCard5 = rootView.findViewById(R.id.popCard5);
         popCard6 = rootView.findViewById(R.id.popCard6);
 
-
         // Fetch album details if the album list is empty (i.e., not already cached)
         if (albumList == null) {
             new FetchAlbumDetailsTask().execute();
@@ -107,53 +115,21 @@ public class Popular extends Fragment {
             populateViews(albumList);
         }
 
-
-        popCard1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCardClicked(0);
-            }
-        });
-
-        popCard2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCardClicked(1);
-            }
-        });
-
-        popCard3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCardClicked(2);
-            }
-        });
-
-        popCard4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCardClicked(3);
-            }
-        });
-
-        popCard5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCardClicked(4);
-            }
-        });
-
-        popCard6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCardClicked(5);
-            }
-        });
-
+        // Set click listeners for the card views
+        popCard1.setOnClickListener(view -> onCardClicked(0));
+        popCard2.setOnClickListener(view -> onCardClicked(1));
+        popCard3.setOnClickListener(view -> onCardClicked(2));
+        popCard4.setOnClickListener(view -> onCardClicked(3));
+        popCard5.setOnClickListener(view -> onCardClicked(4));
+        popCard6.setOnClickListener(view -> onCardClicked(5));
 
         return rootView;
     }
 
+    /**
+     * Handles card click events.
+     * @param i The index of the clicked card.
+     */
     private void onCardClicked(int i) {
         Album selectedAlbum = albumList.get(i);
         Intent intent = new Intent(getContext(), AlbumDetailsActivity.class);
@@ -162,7 +138,10 @@ public class Popular extends Fragment {
         startActivity(intent);
     }
 
-
+    /**
+     * Populates the views with album details.
+     * @param albumList The list of albums.
+     */
     private void populateViews(List<Album> albumList) {
         for (int i = 0; i < albumList.size(); i++) {
             Album album = albumList.get(i);
@@ -203,12 +182,18 @@ public class Popular extends Fragment {
         }
     }
 
+    /**
+     * AsyncTask for fetching album details.
+     */
     private class FetchAlbumDetailsTask extends AsyncTask<Void, Void, List<Album>> {
 
+        /**
+         * Fetches album details in the background.
+         * @param voids No parameters.
+         * @return The list of albums.
+         */
         @Override
         protected List<Album> doInBackground(Void... voids) {
-
-
             List<Album> newAlbumList = new ArrayList<>();
 
             try {
@@ -240,12 +225,13 @@ public class Popular extends Fragment {
                 Log.e(TAG, "Error parsing top tracks JSON", e);
             }
 
-
             albumList = newAlbumList;  // Cache the fetched data
             return albumList;
-
         }
 
+        /**
+         * Prepares the UI before executing the task.
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -256,13 +242,13 @@ public class Popular extends Fragment {
             cardView4.setVisibility(View.GONE);
             cardView5.setVisibility(View.GONE);
             cardView6.setVisibility(View.GONE);
-
             progressBar.setVisibility(View.VISIBLE);
-
-
         }
 
-
+        /**
+         * Updates the UI with the fetched album details.
+         * @param albumList The list of albums.
+         */
         @Override
         protected void onPostExecute(List<Album> albumList) {
             super.onPostExecute(albumList);
@@ -270,8 +256,6 @@ public class Popular extends Fragment {
             if (albumList != null && !albumList.isEmpty()) {
                 Log.d(TAG, "All album details fetched: " + albumList);
                 populateViews(albumList);
-
-
                 progressBar.setVisibility(View.GONE);
                 textView3.setVisibility(View.VISIBLE);
                 cardView1.setVisibility(View.VISIBLE);
@@ -280,14 +264,17 @@ public class Popular extends Fragment {
                 cardView4.setVisibility(View.VISIBLE);
                 cardView5.setVisibility(View.VISIBLE);
                 cardView6.setVisibility(View.VISIBLE);
-
-
             } else {
                 Log.e(TAG, "No album details fetched");
             }
         }
 
-
+        /**
+         * Fetches album details for a given track and artist.
+         * @param trackName The name of the track.
+         * @param artistName The name of the artist.
+         * @return The album details.
+         */
         private Album fetchAlbumDetails(String trackName, String artistName) {
             try {
                 // First, attempt to search with both track name and artist name
@@ -306,6 +293,11 @@ public class Popular extends Fragment {
             }
         }
 
+        /**
+         * Searches for an album using a query.
+         * @param query The search query.
+         * @return The album details.
+         */
         private Album searchAlbum(String query) {
             try {
                 String url = "https://ws.audioscrobbler.com/2.0/?method=album.search&album=" + query.replace(" ", "+") +
@@ -356,7 +348,9 @@ public class Popular extends Fragment {
         }
     }
 
-    // Data class for Album
+    /**
+     * Data class for Album.
+     */
     private static class Album {
         String albumName;
         String artistName;

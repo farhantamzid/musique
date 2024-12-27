@@ -28,11 +28,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity for displaying album details.
+ */
 public class AlbumDetailsActivity extends AppCompatActivity {
 
+    // Tag for logging
     private static final String TAG = "AlbumDetailsActivity";
+    // API key for fetching album details
     private static final String API_KEY = "8cde7eb19387aac387fa9c498131b5c8";
 
+    // UI elements
     ImageView imageViewAlbumArt;
     TextView albumNameTV;
     TextView artistNameTV;
@@ -48,13 +54,19 @@ public class AlbumDetailsActivity extends AppCompatActivity {
 
     CardView cardView8;
 
+    // Firebase Firestore instance
     private FirebaseFirestore firestore;
 
+    /**
+     * Called when the activity is first created.
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_details);
 
+        // Initialize UI elements
         imageViewAlbumArt = findViewById(R.id.imageViewAlbumArt);
         albumNameTV = findViewById(R.id.albumName);
         artistNameTV = findViewById(R.id.artistName);
@@ -68,8 +80,10 @@ public class AlbumDetailsActivity extends AppCompatActivity {
         cardView8 = findViewById(R.id.cardView8);
         loader = findViewById(R.id.loader);
 
+        // Initialize Firebase Firestore instance
         firestore = FirebaseFirestore.getInstance();
 
+        // Set click listener for the leave review button
         btnLeaveReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +94,7 @@ public class AlbumDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Set click listener for the view reviews button
         btnViewReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,11 +105,14 @@ public class AlbumDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Set layout manager for the recycler view
         recyclerViewTracks.setLayoutManager(new LinearLayoutManager(this));
 
+        // Get album details from the intent
         String albumNameExtra = getIntent().getStringExtra("albumName");
         String artistNameExtra = getIntent().getStringExtra("artistName");
 
+        // Fetch album info and reviews if album name and artist name are provided
         if (albumNameExtra != null && artistNameExtra != null) {
             new FetchAlbumInfoTask(albumNameExtra, artistNameExtra).execute();
             fetchReviews(albumNameExtra, artistNameExtra);
@@ -103,9 +121,16 @@ public class AlbumDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Fetches reviews for the album from Firestore.
+     * @param albumName The name of the album.
+     * @param artistName The name of the artist.
+     */
     private void fetchReviews(String albumName, String artistName) {
+        // Create a unique album ID
         String albumId = albumName + "_" + artistName;
 
+        // Query Firestore to fetch reviews
         firestore.collection("albums").document(albumId).collection("reviews")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -113,11 +138,13 @@ public class AlbumDetailsActivity extends AppCompatActivity {
                         int totalReviews = 0;
                         float totalRating = 0;
 
+                        // Calculate total reviews and average rating
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             totalReviews++;
                             totalRating += document.getDouble("rating");
                         }
 
+                        // Update UI with average rating and total reviews
                         if (totalReviews > 0) {
                             float averageRating = totalRating / totalReviews;
                             ratingBar.setRating(averageRating);
@@ -132,6 +159,9 @@ public class AlbumDetailsActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * AsyncTask for fetching album information from the API.
+     */
     private class FetchAlbumInfoTask extends AsyncTask<Void, Void, AlbumDetails> {
         String albumName;
         String artistName;
@@ -141,20 +171,29 @@ public class AlbumDetailsActivity extends AppCompatActivity {
             this.artistName = artistName;
         }
 
+        /**
+         * Fetches album details in the background.
+         * @param voids No parameters.
+         * @return AlbumDetails object containing album information.
+         */
         @Override
         protected AlbumDetails doInBackground(Void... voids) {
             try {
+                // Construct the API URL
                 String url = "https://ws.audioscrobbler.com/2.0/?method=album.getinfo" +
                         "&api_key=" + API_KEY +
                         "&artist=" + artistName.replace(" ", "%20") +
                         "&album=" + albumName.replace(" ", "%20") +
                         "&format=json";
 
+                // Execute the GET request
                 String response = HttpRequest.executeGet(url);
 
+                // Parse the JSON response
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject albumObject = jsonObject.getJSONObject("album");
 
+                // Extract album details
                 String name = albumObject.getString("name");
                 String artist = albumObject.getString("artist");
                 int playCount = albumObject.getInt("playcount");
@@ -179,6 +218,7 @@ public class AlbumDetailsActivity extends AppCompatActivity {
                 String coverArtUrl = "";
                 JSONArray images = albumObject.getJSONArray("image");
 
+                // Extract cover art URL
                 for (int i = 0; i < images.length(); i++) {
                     JSONObject imageObject = images.getJSONObject(i);
                     if ("extralarge".equals(imageObject.getString("size"))) {
@@ -187,6 +227,7 @@ public class AlbumDetailsActivity extends AppCompatActivity {
                     }
                 }
 
+                // Extract genres
                 JSONArray tags;
                 Object tagsObject = albumObject.get("tags");
                 if (tagsObject instanceof JSONObject) {
@@ -203,6 +244,7 @@ public class AlbumDetailsActivity extends AppCompatActivity {
                     }
                 }
 
+                // Return the album details
                 return new AlbumDetails(name, artist, coverArtUrl, genresBuilder.toString(), playCount, trackList);
             } catch (JSONException e) {
                 Log.e(TAG, "Error parsing album.getinfo JSON", e);
@@ -210,25 +252,33 @@ public class AlbumDetailsActivity extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * Updates the UI with the fetched album details.
+         * @param albumDetails The fetched album details.
+         */
         @Override
         protected void onPostExecute(AlbumDetails albumDetails) {
             super.onPostExecute(albumDetails);
 
             if (albumDetails != null) {
+                // Update UI elements with album details
                 albumNameTV.setText(albumDetails.name);
                 artistNameTV.setText(albumDetails.artist);
                 albumDate.setText("Play Count: " + albumDetails.playCount);
                 genre.setText(albumDetails.genre);
 
+                // Load cover art using Glide
                 Glide.with(AlbumDetailsActivity.this)
                         .load(albumDetails.coverArtUrl)
                         .into(imageViewAlbumArt);
 
+                // Set adapter for the recycler view
                 TrackAdapter adapter = new TrackAdapter(AlbumDetailsActivity.this, albumDetails.trackList);
                 recyclerViewTracks.setAdapter(adapter);
                 loader.setVisibility(View.GONE);
                 cardView8.setVisibility(View.VISIBLE);
             } else {
+                // Handle case where album details are not available
                 albumNameTV.setText("N/A");
                 artistNameTV.setText("N/A");
                 albumDate.setText("Play Count: N/A");
@@ -238,6 +288,9 @@ public class AlbumDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Class representing album details.
+     */
     private static class AlbumDetails {
         String name;
         String artist;

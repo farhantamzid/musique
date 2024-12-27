@@ -19,17 +19,34 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Fragment for displaying user profile information.
+ */
 public class Profile extends Fragment {
 
+    // UI elements
     TextView name;
     TextView email;
     Button signOutButton;
 
+    // Firebase authentication and Firestore instances
     FirebaseAuth mAuth;
     FirebaseFirestore db;
 
+    // Tag for logging
     private static final String TAG = "ProfileFragment";
 
+    // Static variable to cache user data
+    private static FirebaseUser cachedUser = null;
+    private static String cachedUserName = null;
+
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,10 +67,12 @@ public class Profile extends Fragment {
             return insets;
         });
 
+        // Initialize UI elements
         name = rootView.findViewById(R.id.name);
         email = rootView.findViewById(R.id.email);
         signOutButton = rootView.findViewById(R.id.signOutButton);
 
+        // Initialize Firebase authentication and Firestore instances
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -61,30 +80,39 @@ public class Profile extends Fragment {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            // Display email
-            email.setText(currentUser.getEmail());
-
-            // Try to fetch the display name directly from FirebaseUser
-            String displayName = currentUser.getDisplayName();
-            if (displayName != null && !displayName.isEmpty()) {
-                name.setText(displayName);
+            // Check if user data is cached
+            if (cachedUser != null && cachedUser.getUid().equals(currentUser.getUid())) {
+                // Use cached data
+                email.setText(cachedUser.getEmail());
+                name.setText(cachedUserName);
             } else {
-                // If display name is not available, fetch it from Firestore
-                String userId = currentUser.getUid();
-                db.collection("users").document(userId).get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            if (documentSnapshot.exists()) {
-                                String userName = documentSnapshot.getString("name");
-                                name.setText(userName);
-                            } else {
-                                Log.d(TAG, "No such document for user ID: " + userId);
-                                name.setText("Unknown User");
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.e(TAG, "Error fetching user details", e);
-                            Toast.makeText(getActivity(), "Error loading profile", Toast.LENGTH_SHORT).show();
-                        });
+                // Cache the current user
+                cachedUser = currentUser;
+                email.setText(currentUser.getEmail());
+
+                // Try to fetch the display name directly from FirebaseUser
+                String displayName = currentUser.getDisplayName();
+                if (displayName != null && !displayName.isEmpty()) {
+                    cachedUserName = displayName;
+                    name.setText(displayName);
+                } else {
+                    // If display name is not available, fetch it from Firestore
+                    String userId = currentUser.getUid();
+                    db.collection("users").document(userId).get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
+                                    cachedUserName = documentSnapshot.getString("name");
+                                    name.setText(cachedUserName);
+                                } else {
+                                    Log.d(TAG, "No such document for user ID: " + userId);
+                                    name.setText("Unknown User");
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "Error fetching user details", e);
+                                Toast.makeText(getActivity(), "Error loading profile", Toast.LENGTH_SHORT).show();
+                            });
+                }
             }
         } else {
             // Handle case when no user is signed in
@@ -92,8 +120,11 @@ public class Profile extends Fragment {
             name.setText("Guest");
         }
 
+        // Set click listener for the sign-out button
         signOutButton.setOnClickListener(v -> {
             mAuth.signOut();
+            cachedUser = null; // Clear cached user data
+            cachedUserName = null; // Clear cached user name
             startActivity(new Intent(getActivity(), LoginActivity.class));
             if (getActivity() != null) {
                 getActivity().finish();

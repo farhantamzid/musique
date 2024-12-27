@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="album"
                 android:textColor="@color/md_theme_secondary"
                 android:textSize="48sp"
