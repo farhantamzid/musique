@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="profile"
         android:textSize="48sp"
         android:textColor="@color/md_theme_secondary"
@@ -87,7 +87,7 @@
                     android:id="@+id/imageView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:src="@tools:sample/avatars" />
+                    android:src="@drawable/username" />
 
 
             </androidx.cardview.widget.CardView>

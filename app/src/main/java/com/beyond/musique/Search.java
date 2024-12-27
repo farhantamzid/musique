@@ -41,6 +41,8 @@ public class Search extends Fragment {
     private static final String API_KEY = "8cde7eb19387aac387fa9c498131b5c8"; // Replace with your actual API key
     private static final String TAG = "Search";
 
+    private static JSONArray cachedResults = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,6 +95,9 @@ public class Search extends Fragment {
         cardView6 = rootView.findViewById(R.id.cardView6);
         cardView7 = rootView.findViewById(R.id.cardView7);
 
+        if (cachedResults != null) {
+            updateUIWithResults(cachedResults);
+        }
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +109,6 @@ public class Search extends Fragment {
                 }
             }
         });
-
 
         cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,13 +159,10 @@ public class Search extends Fragment {
             }
         });
 
-
-
         return rootView;
     }
 
     private void onCardClicked(int i) {
-
         String albumName = null;
         String artistName = null;
         switch (i) {
@@ -193,16 +194,69 @@ public class Search extends Fragment {
                 albumName = searchName7.getText().toString();
                 artistName = searchArtist7.getText().toString();
                 break;
-
-
         }
-
 
         Intent intent = new Intent(getActivity(), AlbumDetailsActivity.class);
         intent.putExtra("albumName", albumName);
         intent.putExtra("artistName", artistName);
         startActivity(intent);
+    }
 
+    private void updateUIWithResults(JSONArray albums) {
+        try {
+            for (int i = 0; i < albums.length() && i < 7; i++) {
+                JSONObject album = albums.getJSONObject(i);
+                String albumName = album.getString("name");
+                String artistName = album.getString("artist");
+                JSONArray images = album.getJSONArray("image");
+
+                String imageUrl = "";
+                for (int j = 0; j < images.length(); j++) {
+                    JSONObject imageObj = images.getJSONObject(j);
+                    if ("extralarge".equals(imageObj.getString("size"))) {
+                        imageUrl = imageObj.getString("#text");
+                        break;
+                    } else if ("large".equals(imageObj.getString("size"))) {
+                        imageUrl = imageObj.getString("#text");
+                    }
+                }
+
+                switch (i) {
+                    case 0:
+                        updateUI(searchName1, searchArtist1, searchImage1, albumName, artistName, imageUrl);
+                        break;
+                    case 1:
+                        updateUI(searchName2, searchArtist2, searchImage2, albumName, artistName, imageUrl);
+                        break;
+                    case 2:
+                        updateUI(searchName3, searchArtist3, searchImage3, albumName, artistName, imageUrl);
+                        break;
+                    case 3:
+                        updateUI(searchName4, searchArtist4, searchImage4, albumName, artistName, imageUrl);
+                        break;
+                    case 4:
+                        updateUI(searchName5, searchArtist5, searchImage5, albumName, artistName, imageUrl);
+                        break;
+                    case 5:
+                        updateUI(searchName6, searchArtist6, searchImage6, albumName, artistName, imageUrl);
+                        break;
+                    case 6:
+                        updateUI(searchName7, searchArtist7, searchImage7, albumName, artistName, imageUrl);
+                        break;
+                }
+            }
+
+            loader.setVisibility(View.GONE);
+            resultContainer.setVisibility(View.VISIBLE);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing album JSON", e);
+        }
+    }
+
+    private void updateUI(TextView nameView, TextView artistView, ImageView imageView, String albumName, String artistName, String imageUrl) {
+        nameView.setText(albumName);
+        artistView.setText(artistName);
+        Glide.with(requireContext()).load(imageUrl).into(imageView);
     }
 
     private class FetchSearchResultsTask extends AsyncTask<String, Void, JSONArray> {
@@ -229,63 +283,9 @@ public class Search extends Fragment {
         protected void onPostExecute(JSONArray albums) {
             super.onPostExecute(albums);
             if (albums != null) {
-                try {
-                    for (int i = 0; i < albums.length() && i < 7; i++) {
-                        JSONObject album = albums.getJSONObject(i);
-                        String albumName = album.getString("name");
-                        String artistName = album.getString("artist");
-                        JSONArray images = album.getJSONArray("image");
-
-                        // Get the "extralarge" image if available, fallback to "large"
-                        String imageUrl = "";
-                        for (int j = 0; j < images.length(); j++) {
-                            JSONObject imageObj = images.getJSONObject(j);
-                            if ("extralarge".equals(imageObj.getString("size"))) {
-                                imageUrl = imageObj.getString("#text");
-                                break;
-                            } else if ("large".equals(imageObj.getString("size"))) {
-                                imageUrl = imageObj.getString("#text");
-                            }
-                        }
-
-                        // Populate UI elements using switch case
-                        switch (i) {
-                            case 0:
-                                updateUI(searchName1, searchArtist1, searchImage1, albumName, artistName, imageUrl);
-                                break;
-                            case 1:
-                                updateUI(searchName2, searchArtist2, searchImage2, albumName, artistName, imageUrl);
-                                break;
-                            case 2:
-                                updateUI(searchName3, searchArtist3, searchImage3, albumName, artistName, imageUrl);
-                                break;
-                            case 3:
-                                updateUI(searchName4, searchArtist4, searchImage4, albumName, artistName, imageUrl);
-                                break;
-                            case 4:
-                                updateUI(searchName5, searchArtist5, searchImage5, albumName, artistName, imageUrl);
-                                break;
-                            case 5:
-                                updateUI(searchName6, searchArtist6, searchImage6, albumName, artistName, imageUrl);
-                                break;
-                            case 6:
-                                updateUI(searchName7, searchArtist7, searchImage7, albumName, artistName, imageUrl);
-                                break;
-                        }
-                    }
-
-                    loader.setVisibility(View.GONE);
-                    resultContainer.setVisibility(View.VISIBLE);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Error parsing album JSON", e);
-                }
+                cachedResults = albums; // Cache the results
+                updateUIWithResults(albums);
             }
-        }
-
-        private void updateUI(TextView nameView, TextView artistView, ImageView imageView, String albumName, String artistName, String imageUrl) {
-            nameView.setText(albumName);
-            artistView.setText(artistName);
-            Glide.with(requireContext()).load(imageUrl).into(imageView);
         }
     }
 }

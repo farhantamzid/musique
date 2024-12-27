@@ -1,148 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hello"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     tools:context=".AlbumDetailsActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-        <TextView
-            android:id="@+id/appName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="album details"
-            android:textSize="48sp"
-            android:textColor="@color/md_theme_secondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/loader"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView8"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/md_theme_primaryContainer"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="4dp"
-            app:layout_constraintTop_toBottomOf="@id/appName"
-            tools:layout_editor_absoluteX="16dp">
+            android:paddingBottom="16dp"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="album"
+                android:textColor="@color/md_theme_secondary"
+                android:textSize="48sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ProgressBar
+                android:id="@+id/loader"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView8"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="invisible"
+                app:cardBackgroundColor="@color/md_theme_primaryContainer"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="4dp"
+                app:layout_constraintTop_toBottomOf="@id/appName">
 
-
-                <TextView
-                    android:id="@+id/albumName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text="Album Name"
-                    android:textSize="42sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewAlbumArtContainer" />
-
-                <TextView
-                    android:id="@+id/artistName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Artist Name"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/albumName" />
-
-                <TextView
-                    android:id="@+id/albumDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="2023"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/artistName" />
-
-                <TextView
-                    android:id="@+id/genre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="funk, pop, soul"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/albumDate" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewAlbumArtContainer"
-                    android:layout_width="250dp"
-
-                    android:layout_height="250dp"
-                    android:layout_marginTop="32dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageViewAlbumArt"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:src="@tools:sample/avatars" />
-
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewTrackContainer"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@color/md_theme_surfaceContainer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/genre"
-                    android:layout_height="300dp" />
+                    android:paddingBottom="16dp"
+                    android:layout_height="wrap_content">
 
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="1"
+                        android:rating="0"
+                        android:isIndicator="true"
+                        android:layout_margin="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/genre" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tvRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="No reviews yet."
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/btnViewReviews"
+                        app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
+                    <Button
+                        android:id="@+id/btnLeaveReview"
+                        android:layout_width="0dp"
+                        app:layout_constraintHorizontal_weight="1"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tvRating"
+                        android:layout_margin="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnViewReviews"
+                        android:text="Leave a review"/>
 
-        </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/btnViewReviews"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintTop_toBottomOf="@id/tvRating"
+                        android:text="View Reviews"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/btnLeaveReview"/>
 
+                    <TextView
+                        android:id="@+id/albumName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="Album Name"
+                        android:textSize="32sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardViewAlbumArtContainer" />
 
+                    <TextView
+                        android:id="@+id/artistName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-condensed-medium"
 
+                        android:text="Artist Name"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/albumName" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/albumDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="2023"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/artistName" />
 
+                    <TextView
+                        android:id="@+id/genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="funk, pop, soul"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        app:layout_constraintTop_toBottomOf="@+id/albumDate" />
 
-</ScrollView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewAlbumArtContainer"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="32dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imageViewAlbumArt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:src="@tools:sample/avatars" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewTrackContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btnViewReviews"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewTracks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:padding="8dp"
+                            android:scrollbars="none"
+                            android:focusableInTouchMode="false"
+                            android:focusable="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/genre" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

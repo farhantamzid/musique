@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="musique"
         android:textSize="48sp"
         android:textColor="@color/md_theme_secondary"
@@ -76,13 +76,14 @@
         android:id="@+id/resultContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView3"
-        android:visibility="invisible"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
+        android:visibility="invisible"
         app:cardBackgroundColor="@color/md_theme_secondaryContainer"
-        app:cardCornerRadius="35dp">
+        app:cardCornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView3"
+        tools:layout_editor_absoluteX="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -93,11 +94,11 @@
                 android:id="@+id/cardView7"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="4dp"
-                app:cardCornerRadius="35dp"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -175,14 +176,14 @@
                 android:id="@+id/cardView6"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                app:cardCornerRadius="35dp"
+                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/cardView7"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView5"
                 app:layout_constraintVertical_weight="1">
@@ -257,11 +258,11 @@
                 android:id="@+id/cardView5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                app:cardCornerRadius="35dp"
+                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
                 app:layout_constraintBottom_toTopOf="@id/cardView6"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -339,11 +340,11 @@
                 android:id="@+id/cardView4"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                app:cardCornerRadius="35dp"
+                app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
                 app:layout_constraintBottom_toTopOf="@id/cardView5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -425,7 +426,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 app:cardBackgroundColor="@color/md_theme_surfaceContainer"
-                app:cardCornerRadius="35dp"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
                 app:layout_constraintBottom_toTopOf="@id/cardView4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -508,9 +509,9 @@
                 android:layout_marginBottom="4dp"
                 app:cardBackgroundColor="@color/md_theme_surfaceContainer"
 
-                app:layout_constraintBottom_toTopOf="@id/cardView3"
-                app:cardCornerRadius="35dp"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
+                app:layout_constraintBottom_toTopOf="@id/cardView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView1"
@@ -531,8 +532,8 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="match_parent"
                             android:id="@+id/searchImage2"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             android:src="@drawable/test" />
@@ -545,8 +546,10 @@
                         android:id="@+id/searchName2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-condensed-medium"
+                        android:maxWidth="230dp"
                         android:maxLines="1"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
@@ -555,9 +558,7 @@
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/imageHolder2"
-                        android:maxWidth="230dp"
-                        android:layout_marginStart="16dp" />
+                        app:layout_constraintTop_toTopOf="@+id/imageHolder2" />
 
                     <TextView
                         android:id="@+id/searchArtist2"
@@ -590,7 +591,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
                 app:cardBackgroundColor="@color/md_theme_surfaceContainer"
-                app:cardCornerRadius="35dp"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="4dp"
                 app:layout_constraintBottom_toTopOf="@id/cardView2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -627,14 +628,14 @@
                         android:id="@+id/searchName1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="TextView"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:maxWidth="230dp"
-                        android:scrollHorizontally="true"
                         android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:maxWidth="230dp"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:text="TextView"
                         android:textColor="@color/md_theme_onTertiaryContainer"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -665,15 +666,9 @@
             </androidx.cardview.widget.CardView>
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 
