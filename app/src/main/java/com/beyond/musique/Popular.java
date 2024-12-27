@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.bumptech.glide.Glide;
 
 public class Popular extends Fragment {
@@ -31,7 +32,7 @@ public class Popular extends Fragment {
     private static List<Album> albumList = null;
 
 
-    TextView tv1name, tv1artist, tv2name, tv2artist, tv3name, tv3artist, tv4name, tv4artist, tv5name, tv5artist, tv6name, tv6artist,textView3;
+    TextView tv1name, tv1artist, tv2name, tv2artist, tv3name, tv3artist, tv4name, tv4artist, tv5name, tv5artist, tv6name, tv6artist, textView3;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6;
 
     ProgressBar progressBar;
@@ -98,8 +99,6 @@ public class Popular extends Fragment {
         popCard6 = rootView.findViewById(R.id.popCard6);
 
 
-
-
         // Fetch album details if the album list is empty (i.e., not already cached)
         if (albumList == null) {
             new FetchAlbumDetailsTask().execute();
@@ -107,7 +106,6 @@ public class Popular extends Fragment {
             // If the album list is cached, populate the views directly
             populateViews(albumList);
         }
-
 
 
         popCard1.setOnClickListener(new View.OnClickListener() {
@@ -151,13 +149,6 @@ public class Popular extends Fragment {
                 onCardClicked(5);
             }
         });
-
-
-
-
-
-
-
 
 
         return rootView;
@@ -218,7 +209,6 @@ public class Popular extends Fragment {
         protected List<Album> doInBackground(Void... voids) {
 
 
-
             List<Album> newAlbumList = new ArrayList<>();
 
             try {
@@ -270,8 +260,6 @@ public class Popular extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
 
 
-
-
         }
 
 
@@ -292,7 +280,6 @@ public class Popular extends Fragment {
                 cardView4.setVisibility(View.VISIBLE);
                 cardView5.setVisibility(View.VISIBLE);
                 cardView6.setVisibility(View.VISIBLE);
-
 
 
             } else {

@@ -22,8 +22,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:paddingBottom="16dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:id="@+id/appName"
@@ -61,20 +61,20 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:paddingBottom="16dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp">
 
                     <RatingBar
                         android:id="@+id/ratingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:stepSize="1"
-                        android:rating="0"
-                        android:isIndicator="true"
                         android:layout_margin="16dp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:rating="0"
+                        android:stepSize="1"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/genre" />
 
                     <TextView
@@ -84,40 +84,40 @@
                         android:fontFamily="sans-serif-condensed-medium"
                         android:text="No reviews yet."
                         android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@id/btnViewReviews"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/btnViewReviews"
                         app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
                     <Button
                         android:id="@+id/btnLeaveReview"
                         android:layout_width="0dp"
-                        app:layout_constraintHorizontal_weight="1"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/tvRating"
                         android:layout_margin="16dp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="Leave a review"
                         app:layout_constraintEnd_toStartOf="@id/btnViewReviews"
-                        android:text="Leave a review"/>
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvRating" />
 
                     <Button
                         android:id="@+id/btnViewReviews"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintTop_toBottomOf="@id/tvRating"
                         android:text="View Reviews"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/btnLeaveReview"/>
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@id/btnLeaveReview"
+                        app:layout_constraintTop_toBottomOf="@id/tvRating" />
 
                     <TextView
                         android:id="@+id/albumName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="sans-serif-condensed-medium"
                         android:ellipsize="end"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:singleLine="true"
                         android:text="Album Name"
                         android:textSize="32sp"
@@ -143,9 +143,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:text="2023"
                         android:textSize="16sp"
-                        android:fontFamily="sans-serif-condensed-medium"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/artistName" />
@@ -155,11 +155,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:text="funk, pop, soul"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:fontFamily="sans-serif-condensed-medium"
                         app:layout_constraintTop_toBottomOf="@+id/albumDate" />
 
                     <androidx.cardview.widget.CardView
@@ -185,25 +185,25 @@
                         android:id="@+id/cardViewTrackContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
                         app:cardBackgroundColor="@color/md_theme_surfaceContainer"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="4dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/btnViewReviews"
-                        app:layout_constraintStart_toStartOf="parent">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btnViewReviews">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewTracks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
                             android:padding="8dp"
                             android:scrollbars="none"
-                            android:focusableInTouchMode="false"
-                            android:focusable="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/genre" />
